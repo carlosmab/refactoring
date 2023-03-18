@@ -45,6 +45,17 @@ class Graph:
     def add_edge(self, start: Vertex, end: Vertex, weight: int = 1) -> None:
         edge = Edge(start, end, weight)
     
+    def dfs(self, start: Vertex) -> None:
+        visited = set()
+        self._dfs_recursive(start, visited)
+        
+    def _dfs_recursive(self, vertex: Vertex, visited: set):
+        visited.add(vertex)
+        print(vertex)
+        for edge in vertex.edges:
+            if edge.end not in visited:
+                self._dfs_recursive(edge.end, visited)
+    
     def __str__(self) -> str:
         return "\n".join(str(vertex) for vertex in self.vertices)
     
@@ -59,11 +70,14 @@ graph = Graph()
 vertexA = graph.add_vertex("A")
 vertexB = graph.add_vertex("B")
 vertexC = graph.add_vertex("C")
+vertexD = graph.add_vertex("D")
 
-
-graph.add_edge(vertexA, vertexC)
 graph.add_edge(vertexA, vertexB)
 graph.add_edge(vertexB, vertexC)
+graph.add_edge(vertexB, vertexD)
+graph.add_edge(vertexD, vertexC)
 
 graph.print()
 print(graph)
+
+graph.dfs(vertexB)
